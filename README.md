@@ -80,17 +80,34 @@ Jika Anda mengunduh source code ini dan ingin mengunggahnya ke GitHub Anda sendi
 
 ## 🌐 Deploy Gratis ke GitHub Pages
 
-Proyek ini telah dilengkapi dengan konfigurasi otomatis **GitHub Actions** (`.github/workflows/deploy.yml`) dan base path relatif di `vite.config.ts`.
+Proyek ini telah dikonfigurasi untuk mencegah kendala **tampilan blank (layar putih/kosong)** saat diaktifkan di GitHub Pages. Anda dapat memilih salah satu dari 2 metode di bawah:
 
-### Cara Mengaktifkan:
-1. Buka halaman repository Anda di GitHub.
-2. Masuk ke menu **Settings** > **Pages**.
-3. Pada bagian **Build and deployment** > **Source**, pilih **GitHub Actions**.
-4. Lakukan *push* ke branch `main`, dan GitHub Actions akan otomatis mem-build serta merilis game Anda ke URL:
-   `https://USERNAME_ANDA.github.io/NAMA_REPOSITORY/`
+### Metode 1: Menggunakan GitHub Actions (Sangat Disarankan ⭐)
+1. Buka repository Anda di GitHub.
+2. Masuk ke tab **Settings** > **Pages**.
+3. Di bagian **Build and deployment** > **Source**, pilih **GitHub Actions** (bukan "Deploy from a branch").
+4. Lakukan *push* ke branch `main`. Workflow `.github/workflows/deploy.yml` akan otomatis mem-build dan merilis game.
 
-> **Catatan Penting Kamera & HTTPS**:
-> Browser modern mewajibkan protokol **HTTPS** atau `localhost` untuk mengaktifkan webcam. GitHub Pages secara otomatis menyediakan sertifikat HTTPS gratis, sehingga deteksi kamera MediaPipe akan langsung berfungsi dengan lancar!
+### Metode 2: Menggunakan Folder `/docs` (Langsung Aktif Tanpa Actions)
+Jika Anda menggunakan opsi **"Deploy from a branch"**:
+1. Jalankan `npm run build` di lokal (folder `docs/` sudah otomatis dibuatkan).
+2. Push folder `docs/` ke GitHub:
+   ```bash
+   git add docs/
+   git commit -m "build: perbarui rilis web di docs"
+   git push origin main
+   ```
+3. Di GitHub: **Settings** > **Pages** > **Build and deployment**:
+   - **Source**: Pilih **Deploy from a branch**
+   - **Branch**: Pilih **main**
+   - **Folder**: Pilih **/docs** (⚠️ *Jangan pilih /root karena browser tidak bisa menjalankan file .tsx mentah*)
+   - Klik **Save**.
+
+### 💡 Solusi Jika Sempat Mengalami Tampilan Blank di GitHub Pages:
+- **Penyebab 1: Sumber Pages diset ke `/root`**: Ubah ke **GitHub Actions** atau ke folder **/docs**.
+- **Penyebab 2: Masalah Cache Browser**: Tekan `Ctrl + F5` (atau `Cmd + Shift + R` di Mac) untuk membersihkan cache aset lama.
+- **Penyebab 3: URL Tanpa Garis Miring**: Pastikan URL diakhiri dengan garis miring `/` (misal: `https://username.github.io/repo/`). Sistem kami telah menambahkan script *auto-redirect* otomatis untuk menangani ini.
+- **Penyebab 4: Izin Kamera Webcam**: Pastikan memberi izin saat browser meminta akses kamera (*Allow Webcam*). Web harus diakses via protokol **HTTPS**.
 
 ---
 
