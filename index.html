@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game AR - TEMBAK TANGAN </title>
+    <title>Game Edukasi Tembak Tangan</title>
     <meta name="description" content="Game pembelajaran interaktif dengan kontrol gestur tangan MediaPipe Hands webcam." />
     <meta property="og:title" content="Game Edukasi Tembak Tangan" />
     <meta property="og:description" content="Game pembelajaran interaktif dengan kontrol gestur tangan MediaPipe Hands webcam." />
@@ -20,35 +20,37 @@
       })();
     </script>
 
-    <!-- 2. Auto-redirect to /docs/ if user deployed raw repo root to GitHub Pages instead of built folder -->
-    <script>
-      (function() {
-        // Runs only when uncompiled source script exists
-        if (document.querySelector('script[src*="/src/main.tsx"]')) {
-          var h = window.location.hostname;
-          var p = window.location.pathname;
-          if (h && h.indexOf('github.io') !== -1 && p.indexOf('/docs') === -1) {
-            var clean = p.replace(/\/+$/, '');
-            window.location.replace(window.location.origin + clean + '/docs/' + window.location.search + window.location.hash);
-          }
-        }
-      })();
-    </script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
     
-    <!-- MediaPipe CDN (deferred to prevent blocking DOM load) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <!-- MediaPipe CDN (asynchronous to never block React rendering) -->
+    <script async src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
   </head>
   <body class="bg-slate-950 text-white selection:bg-rose-500 selection:text-white overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif]">
     <div id="root">
-      <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #020617; color: #f8fafc; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; text-align: center; padding: 24px;">
+      <div id="app-initial-loader" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #020617; color: #f8fafc; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; text-align: center; padding: 24px;">
         <div style="width: 48px; height: 48px; border: 4px solid #0e7490; border-top-color: #38bdf8; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;"></div>
         <h2 style="font-size: 20px; font-weight: 800; margin: 0 0 8px 0; color: #38bdf8; letter-spacing: 0.05em;">GAME AR TEMBAK TANGAN</h2>
-        <p style="font-size: 14px; color: #94a3b8; margin: 0; max-width: 380px;">Memuat antarmuka permainan...</p>
+        <p id="loader-status" style="font-size: 14px; color: #94a3b8; margin: 0; max-width: 380px;">Memuat antarmuka permainan...</p>
+        
+        <!-- Diagnostic card if page takes more than 3.5 seconds -->
+        <div id="loader-help" style="display: none; margin-top: 24px; max-width: 420px; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 16px; padding: 18px; text-align: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);">
+          <p style="font-size: 13px; color: #cbd5e1; margin: 0 0 12px 0; line-height: 1.5;">
+            Jika antarmuka belum terbuka otomatis:
+          </p>
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <a id="btn-open-docs" href="./docs/" style="display: inline-block; padding: 10px 16px; background: #0284c7; color: white; border-radius: 8px; font-size: 13px; font-weight: bold; text-decoration: none;">
+              Buka Versi Siap Pakai (/docs)
+            </a>
+            <button onclick="window.location.reload()" style="padding: 10px 16px; background: #334155; color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer;">
+              Muat Ulang
+            </button>
+          </div>
+          <p id="loader-error-msg" style="font-size: 11px; color: #f87171; margin-top: 10px; font-family: monospace; display: none; word-break: break-all;"></p>
+        </div>
+
         <noscript>
           <p style="color: #ef4444; margin-top: 16px; font-weight: bold;">Mohon aktifkan JavaScript di browser Anda untuk memainkan game ini.</p>
         </noscript>
@@ -56,7 +58,56 @@
       <style>
         @keyframes spin { to { transform: rotate(360deg); } }
       </style>
+      <script>
+        (function() {
+          var timer = setTimeout(function() {
+            var help = document.getElementById('loader-help');
+            if (help) help.style.display = 'block';
+            var p = window.location.pathname;
+            var btn = document.getElementById('btn-open-docs');
+            if (btn) {
+              if (p.indexOf('/docs') !== -1) {
+                btn.style.display = 'none';
+              } else {
+                var clean = p.replace(/\/+$/, '').replace(/\/index\.html$/, '');
+                btn.href = window.location.origin + clean + '/docs/';
+              }
+            }
+          }, 3500);
+
+          window.addEventListener('error', function(e) {
+            var errEl = document.getElementById('loader-error-msg');
+            if (errEl) {
+              errEl.innerText = (e && e.message) ? e.message : 'Gagal memuat modul.';
+              errEl.style.display = 'block';
+            }
+            var help = document.getElementById('loader-help');
+            if (help) help.style.display = 'block';
+          });
+        })();
+      </script>
     </div>
+
+    <!-- Main React Entry Point -->
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- 2. Auto-redirect on static hosting (like GitHub Pages root deployment) where uncompiled TypeScript cannot run -->
+    <script>
+      (function() {
+        var host = window.location.hostname;
+        var port = window.location.port;
+        var isDev = host === 'localhost' || host === '127.0.0.1' || port === '3000' || host.indexOf('run.app') !== -1;
+        var rawSrc = document.querySelector('script[src*="main.tsx"]');
+        
+        // If not running on dev server and this file contains uncompiled /src/main.tsx:
+        if (!isDev && rawSrc) {
+          var p = window.location.pathname;
+          if (p.indexOf('/docs') === -1 && p.indexOf('/dist') === -1) {
+            var clean = p.replace(/\/+$/, '').replace(/\/index\.html$/, '');
+            window.location.replace(window.location.origin + clean + '/docs/' + window.location.search + window.location.hash);
+          }
+        }
+      })();
+    </script>
   </body>
 </html>

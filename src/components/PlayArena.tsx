@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { Question, GameSettings, GameMode, PlayerStats, Particle, FloatingText } from '../types/game';
 import { createHandTracker, processHandLandmarks, PlayerHandTracker } from '../utils/gestureDetector';
 import { sound } from '../utils/audio';
+import { ensureMediaPipeLoaded } from '../utils/mediaPipeLoader';
 import { Heart, Clock, Flame, Crosshair, ArrowLeft, Sparkles, Swords } from 'lucide-react';
 
 interface PlayArenaProps {
@@ -363,9 +364,12 @@ export const PlayArena: React.FC<PlayArenaProps> = ({
     let isProcessing = false;
 
     const setupMediaPipe = async () => {
+      await ensureMediaPipeLoaded();
       const win = window as any;
       if (!win.Hands || !win.Camera || !videoRef.current) {
-        setTimeout(() => { if (!isCancelled) setupMediaPipe(); }, 400);
+        if (!isCancelled) {
+          setTimeout(setupMediaPipe, 400);
+        }
         return;
       }
 
