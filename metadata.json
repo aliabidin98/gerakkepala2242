@@ -1,0 +1,6 @@
+{
+  "name": "Game Edukasi Tembak Tangan",
+  "description": "Game pembelajaran interaktif dengan kontrol gestur tangan MediaPipe Hands webcam.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,95 @@
+import { Question } from '../types/game';
+
+export const DEFAULT_QUESTIONS: Question[] = [
+  {
+    id: 'q1',
+    category: 'Slogan',
+    question: 'Manakah kalimat berikut yang paling tepat dikategorikan sebagai SLOGAN bertema pelestarian lingkungan?',
+    options: [
+      { key: 'A', text: 'Buku adalah Jendela Dunia, Membaca Menembus Cakrawala' },
+      { key: 'B', text: 'Hijau Bumiku, Bersih Udaraku, Sehat Lestari Jiwaku' },
+      { key: 'C', text: 'Dapatkan diskon 50% bibit pohon peneduh di stan nomor 4!' },
+      { key: 'D', text: 'Pameran flora dibuka mulai hari Senin hingga Jumat' },
+    ],
+    correctAnswer: 'B',
+    explanation: 'Slogan mengutamakan kepadatan kalimat, keindahan rima, dan makna mendalam yang mudah diingat untuk membangkitkan kesadaran bersama.',
+  },
+  {
+    id: 'q2',
+    category: 'Iklan',
+    question: 'Teks persuasif yang memadukan unsur gambar, kata-kata, gerak, dan suara pada media elektronik guna membujuk konsumen membeli produk disebut...',
+    options: [
+      { key: 'A', text: 'Iklan' },
+      { key: 'B', text: 'Poster' },
+      { key: 'C', text: 'Slogan' },
+      { key: 'D', text: 'Spanduk' },
+    ],
+    correctAnswer: 'A',
+    explanation: 'Iklan (khususnya iklan televisi/digital) memiliki kelengkapan unsur: audio (suara), visual (gambar/kata), dan gerak (animasi/video).',
+  },
+  {
+    id: 'q3',
+    category: 'Poster',
+    question: 'Kalimat: "Satu Tetes Darah Anda, Nyawa Bagi Sesama. Ayo Donor Darah Sekarang!" merupakan contoh dari...',
+    options: [
+      { key: 'A', text: 'Poster Niaga / Komersial' },
+      { key: 'B', text: 'Poster Layanan Masyarakat' },
+      { key: 'C', text: 'Poster Film Bioskop' },
+      { key: 'D', text: 'Poster Lowongan Kerja' },
+    ],
+    correctAnswer: 'B',
+    explanation: 'Poster layanan masyarakat berisi pesan sosial atau ajakan kemanusiaan tanpa mencari keuntungan materiil (non-komersial).',
+  },
+  {
+    id: 'q4',
+    category: 'Umum',
+    question: 'Ciri kebahasaan teks iklan yang sering memakai kata seruan/ajakan seperti "Ayo", "Mari", atau akhiran "-lah" disebut bahasa bersifat...',
+    options: [
+      { key: 'A', text: 'Persuasif dan Imperatif' },
+      { key: 'B', text: 'Naratif dan Kronologis' },
+      { key: 'C', text: 'Pasif dan Monoton' },
+      { key: 'D', text: 'Deskriptif dan Baku Kaku' },
+    ],
+    correctAnswer: 'A',
+    explanation: 'Bahasa iklan bersifat persuasif (membujuk/merayu) dan imperatif santun (perintah/ajakan halus agar sasaran bertindak).',
+  },
+  {
+    id: 'q5',
+    category: 'Umum',
+    question: 'Berdasarkan unsur medianya, apa perbedaan utama antara SLOGAN dan POSTER?',
+    options: [
+      { key: 'A', text: 'Slogan mengutamakan gambar, poster mengutamakan nada suara' },
+      { key: 'B', text: 'Slogan mengutamakan kekuatan kata/kalimat, sedangkan poster memadukan visual gambar dan teks plakat' },
+      { key: 'C', text: 'Slogan hanya dipasang di pohon, sedangkan poster hanya di koran' },
+      { key: 'D', text: 'Poster tidak boleh memiliki tulisan, hanya lukisan murni' },
+    ],
+    correctAnswer: 'B',
+    explanation: 'Slogan menekankan kekuatan kata-kata dan gagasan pemikiran, sedangkan poster mengandalkan daya tarik ilustrasi visual yang dipadukan dengan kata-kata singkat.',
+  },
+  {
+    id: 'q6',
+    category: 'Iklan',
+    question: 'Iklan yang dipasang di media cetak koran berupa 2-3 baris teks singkat tanpa gambar dan menggunakan banyak singkatan kata disebut...',
+    options: [
+      { key: 'A', text: 'Iklan Display' },
+      { key: 'B', text: 'Iklan Kolom' },
+      { key: 'C', text: 'Iklan Baris' },
+      { key: 'D', text: 'Iklan Advertorial' },
+    ],
+    correctAnswer: 'C',
+    explanation: 'Iklan baris adalah iklan kecil berbaris-baris pada koran dengan tarif per baris kata, biasanya disingkat untuk menghemat biaya.',
+  },
+  {
+    id: 'q7',
+    category: 'Slogan',
+    question: '"Tiada Hari Tanpa Prestasi". Slogan ini paling tepat digunakan di lingkungan...',
+    options: [
+      { key: 'A', text: 'Pendidikan / Sekolah' },
+      { key: 'B', text: 'Pasar Tradisional' },
+      { key: 'C', text: 'Terminal Bus' },
+      { key: 'D', text: 'Pabrik Otomotif' },
+    ],
+    correctAnswer: 'A',
+    explanation: 'Slogan "Tiada Hari Tanpa Prestasi" memotivasi semangat belajar dan pencapaian akademik/non-akademik di kalangan siswa dan civitas sekolah.',
+  },
+];
